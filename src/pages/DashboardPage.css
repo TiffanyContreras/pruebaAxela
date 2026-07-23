@@ -1,0 +1,352 @@
+.dashboard-hero {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 110px);
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      125deg,
+      rgba(54, 13, 160, 0.97),
+      rgba(105, 45, 211, 0.93)
+    ),
+    url("../assets/dashboard-background.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.dashboard-content {
+  position: relative;
+  z-index: 5;
+
+  width: min(1500px, 92%);
+  min-height: calc(100vh - 110px);
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+}
+
+.dashboard-text {
+  position: relative;
+  z-index: 6;
+  padding-left: 25px;
+  padding-bottom: 60px;
+}
+
+.dashboard-title-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.school-icon {
+  font-size: 70px;
+  line-height: 1;
+  filter: drop-shadow(0 6px 12px rgb(0 0 0 / 20%));
+}
+
+.dashboard-text h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(48px, 5vw, 82px);
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.dashboard-text p {
+  margin: 28px 0 0 118px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: clamp(20px, 2vw, 31px);
+}
+
+.student-area {
+  position: relative;
+  align-self: stretch;
+  min-height: calc(100vh - 110px);
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.green-quarter-circle {
+  position: absolute;
+  right: -80px;
+  bottom: -220px;
+
+  width: 760px;
+  height: 760px;
+
+  border-radius: 100% 0 0 0;
+  background: linear-gradient(135deg, #caff2c, #9dee00);
+
+  box-shadow: inset 20px 20px 60px rgb(255 255 255 / 14%);
+}
+
+/* Espacio temporal para la imagen */
+.student-placeholder {
+  position: relative;
+  z-index: 3;
+
+  width: min(560px, 90%);
+  height: 720px;
+
+  margin-bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 3px dashed rgba(255, 255, 255, 0.7);
+  border-bottom: none;
+  border-radius: 30px 30px 0 0;
+
+  background-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/*
+Cuando tengas la imagen del niño, sustituye el div anterior por:
+
+<img
+  className="student-image"
+  src={imagenNino}
+  alt="Alumno"
+/>
+*/
+
+.student-image {
+  position: relative;
+  z-index: 4;
+
+  width: min(650px, 100%);
+  max-height: calc(100vh - 125px);
+
+  align-self: flex-end;
+  object-fit: contain;
+  object-position: bottom;
+
+  filter: drop-shadow(0 18px 20px rgb(22 8 70 / 25%));
+}
+
+.dashboard-background-shape {
+  position: absolute;
+  z-index: 1;
+
+  border: 45px solid rgba(55, 19, 151, 0.28);
+  border-radius: 50%;
+}
+
+.dashboard-shape-one {
+  top: -420px;
+  right: -80px;
+  width: 900px;
+  height: 900px;
+}
+
+.dashboard-shape-two {
+  left: 35%;
+  bottom: -540px;
+  width: 1000px;
+  height: 1000px;
+}
+
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-family: "Rota", Arial, sans-serif;
+  line-height: 0.92;
+  letter-spacing: -3px;
+}
+
+
+.hero-title-white {
+  display: block;
+  color: #ffffff;
+  font-size: clamp(62px, 6.5vw, 108px);
+  font-weight: 700;
+}
+
+.hero-title-purple {
+  display: block;
+  margin-top: 12px;
+  color: #aaa8e9;
+  font-size: clamp(52px, 5.6vw, 92px);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.underlined-word {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 7px;
+}
+
+.underlined-word::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 4px;
+  border-radius: 999px;
+  background-color: #aaa8e9;
+}
+
+.hero-description {
+  max-width: 650px;
+  margin: 32px 0 0;
+  color: #ffffff;
+  font-size: clamp(21px, 2vw, 31px);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.discover-button {
+  min-width: 235px;
+  min-height: 58px;
+  padding: 8px 17px 8px 30px;
+  border: none;
+  border-radius: 999px;
+  background-color: #ffffff;
+  color: #454545;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  font-family: "Rota", Arial, sans-serif;
+  font-size: 19px;
+  box-shadow: 0 12px 28px rgb(28 8 91 / 18%);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.discover-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgb(28 8 91 / 26%);
+}
+
+.discover-arrow {
+  font-family: Arial, sans-serif;
+  color: #211448;
+  font-size: 31px;
+  line-height: 1;
+}
+
+.favorite-button {
+  width: 58px;
+  height: 58px;
+  padding: 0;
+  border: none;
+  border-radius: 9px;
+  background-color: #aaa8e9;
+  color: #ffffff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-family: Arial, sans-serif;
+  font-size: 35px;
+  line-height: 1;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.favorite-button:hover {
+  background-color: #c1bff6;
+  transform: translateY(-2px);
+}
+
+.hero-dots {
+  display: flex;
+  gap: 9px;
+  margin-top: 75px;
+  margin-left: 6px;
+}
+
+.hero-dots span {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.67);
+}
+
+.hero-dots span:first-child {
+  background-color: #ffffff;
+}
+
+@media (max-width: 1000px) {
+  .dashboard-content {
+    grid-template-columns: 1fr;
+    padding-top: 60px;
+  }
+
+.dashboard-text {
+  position: relative;
+  z-index: 6;
+  max-width: 760px;
+  padding-left: 25px;
+  padding-bottom: 20px;
+}
+  .dashboard-title-row {
+    justify-content: center;
+  }
+
+  .dashboard-text p {
+    margin-left: 0;
+  }
+
+  .student-area {
+    min-height: 560px;
+  }
+
+  .green-quarter-circle {
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .student-placeholder {
+    height: 500px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-title-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .school-icon {
+    font-size: 52px;
+  }
+
+ .dashboard-text h1 {
+  margin: 0;
+  font-family: "Rota", Arial, sans-serif;
+  font-size: clamp(48px, 5vw, 82px);
+  font-weight: 700;
+  line-height: 1;
+  color: white;
+}
+
+  .dashboard-text p {
+    font-size: 19px;
+  }
+}

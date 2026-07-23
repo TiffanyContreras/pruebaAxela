@@ -1,0 +1,132 @@
+@font-face {
+  font-family: "Rota";
+  src: url("./assets/fonts/Rota-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rota";
+  src: url("./assets/fonts/Rota-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rota";
+  src: url("./assets/fonts/Rota-Black.otf") format("opentype");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+ box-sizing: border-box; 
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  font-family: "Rota", Arial, sans-serif;
+}
+
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #3af340;
+  color: #fff;
+  padding: 24px 16px;
+}
+
+.sidebar h2 {
+  margin-top: 0 0 32px;
+  text-align: center;
+}
+
+.sidebar a {
+  padding: 12px 16px;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+}
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar a:hover {
+  background-color: #2e7d32;
+}
+
+.sidebar a.active {
+  background-color: #6c7a06;
+  color: #3af340;
+  font-weight: bold;
+}
+
+.maint-content {
+  flex: 1;
+  padding: 32px;
+}
+
+.cards {
+  gap: 20px;
+  display: grid;
+  margin-top: 24px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.card {
+  background-color: #08de48;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.card p {
+  margin-bottom: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: "Rota", Arial, sans-serif;
+}
+
+@media(max-width: 900px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media(max-width: 600px) {
+  .app-layout {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+  }
+  .cards {
+   grid-template-columns: 1fr;
+  }
+
+
+}
