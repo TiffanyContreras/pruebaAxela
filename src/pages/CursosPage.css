@@ -1,46 +1,165 @@
+/* Los estilos de tarjetas, formularios y botones base son compartidos
+   y viven en AlumnosPage.css (sistema visual común).
+   Aquí solo van ajustes específicos de la página de cursos. */
+
 .cursos-page {
   width: 100%;
 }
 
-.curso-form {
+/* Galería de áreas / materias */
+.materias-section {
+  margin-bottom: 28px;
+}
+
+.materias-title {
+  position: relative;
+  margin: 0 0 20px;
+  padding-left: 14px;
+  color: var(--ink, #1f2937);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.materias-title::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 0;
+  bottom: 3px;
+  width: 5px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #1f2a6b, #4a5bd1);
+}
+
+/* Cuadrícula que llena todo el ancho */
+.materias-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
-  margin-top: 24px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 18px;
 }
 
-.cursos-table {
+.materia-card {
+  padding: 0;
+  border: 3px solid transparent;
+  border-radius: 18px;
+  overflow: hidden;
+  background: none;
+  cursor: pointer;
+
+  box-shadow: 0 10px 30px rgb(20 27 80 / 10%);
+
+  opacity: 0.5;
+  filter: saturate(0.7);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease,
+    filter 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.materia-card:hover {
+  opacity: 1;
+  filter: saturate(1);
+  transform: translateY(-6px);
+}
+
+.materia-card.is-selected {
+  opacity: 1;
+  filter: saturate(1);
+  border-color: #1f2a6b;
+  box-shadow: 0 18px 40px rgb(20 27 80 / 25%);
+}
+
+.materia-card img {
+  display: block;
   width: 100%;
-  min-width: 1050px;
-  border-collapse: collapse;
+  height: 100%;
+  object-fit: cover;
 }
 
-.cursos-table th,
-.cursos-table td {
-  padding: 14px 12px;
-  border-bottom: 1px solid #e5e7eb;
-  text-align: left;
-  vertical-align: middle;
+/* Panel de detalle del curso seleccionado */
+.curso-detalle {
+  padding: clamp(22px, 3vw, 32px);
+  background-color: #ffffff;
+  border: 1px solid var(--line, #e6e8f0);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgb(20 27 80 / 8%);
 }
 
-.cursos-table th {
-  background-color: #f8fafc;
-  color: #374151;
+.curso-detalle-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.curso-detalle-header h2 {
+  margin: 0;
+  color: #1f2a6b;
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 800;
+}
+
+.curso-detalle-codigo {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background-color: #e5e8fa;
+  color: #1f2a6b;
   font-size: 13px;
+  font-weight: 800;
+}
+
+.curso-detalle-desc {
+  margin: 14px 0 24px;
+  max-width: 720px;
+  color: #4b5563;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.curso-detalle-info {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.detalle-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border: 1px solid var(--line, #e6e8f0);
+  border-radius: 12px;
+  background-color: #f6f8ff;
+}
+
+.detalle-label {
+  color: var(--ink-soft, #6b7280);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
   text-transform: uppercase;
 }
 
-.cursos-table td {
-  color: #4b5563;
-  font-size: 14px;
+.detalle-valor {
+  color: #1f2a6b;
+  font-size: 18px;
+  font-weight: 800;
 }
 
-.cursos-table tbody tr:hover {
-  background-color: #f9fafb;
+@media (max-width: 1100px) {
+  .materias-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
-@media (max-width: 800px) {
-  .curso-form {
+@media (max-width: 700px) {
+  .materias-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .curso-detalle-info {
     grid-template-columns: 1fr;
   }
 }

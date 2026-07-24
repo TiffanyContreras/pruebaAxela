@@ -1,0 +1,283 @@
+/* Reutiliza el sistema visual compartido (AlumnosPage.css).
+   Aquí solo los estilos propios de la vista de reportes. */
+
+/* Carrusel de fondo */
+.reportes-page {
+  position: relative;
+}
+
+.reportes-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.reportes-bg-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0;
+  transform: scale(1.05);
+  transition:
+    opacity 1.4s ease-in-out,
+    transform 5s ease-out;
+}
+
+.reportes-bg-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.reportes-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(244, 246, 251, 0.9) 0%,
+    rgba(244, 246, 251, 0.82) 100%
+  );
+  backdrop-filter: blur(1px);
+}
+
+.reportes-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Tarjetas resumen */
+.report-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+
+  background-color: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.stat-icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.stat-icon-total {
+  background-color: #e5e8fa;
+}
+
+.stat-icon-active {
+  background-color: #dcfce7;
+}
+
+.stat-icon-inactive {
+  background-color: #fee2e2;
+}
+
+.stat-card > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  color: var(--brand);
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.stat-label {
+  margin-top: 4px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Filtros */
+.report-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+  margin-bottom: 22px;
+}
+
+/* Botones de exportación */
+.report-export {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.export-button {
+  padding: 10px 16px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: var(--brand);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.export-button:hover {
+  background-color: var(--brand-soft);
+  border-color: #c3c9ea;
+  transform: translateY(-2px);
+}
+
+/* Fila vacía */
+.report-empty {
+  padding: 40px 14px !important;
+  text-align: center !important;
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
+/* Login */
+.login-wrapper {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 240px);
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: clamp(28px, 5vw, 40px);
+  text-align: center;
+
+  background-color: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+
+.login-badge {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand), #33409a);
+  font-size: 26px;
+}
+
+.login-card h2 {
+  margin: 0 0 10px;
+  color: var(--brand);
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.login-card > p {
+  margin: 0 0 24px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.login-submit {
+  width: 100%;
+  margin-top: 6px;
+  padding: 13px;
+  font-size: 15px;
+}
+
+.login-error {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background-color: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #b91c1c;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Caja de sesión */
+.session-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.session-user {
+  color: var(--brand);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.logout-button {
+  padding: 9px 16px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #b91c1c;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.logout-button:hover {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+}
+
+@media (max-width: 900px) {
+  .report-stats,
+  .report-filters {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .report-export {
+    width: 100%;
+  }
+
+  .export-button {
+    flex: 1;
+  }
+}

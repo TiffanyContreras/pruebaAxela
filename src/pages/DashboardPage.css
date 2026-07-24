@@ -4,17 +4,132 @@
   min-height: calc(100vh - 110px);
   overflow: hidden;
 
-  background:
-    linear-gradient(
-      125deg,
-      rgba(54, 13, 160, 0.97),
-      rgba(105, 45, 211, 0.93)
-    ),
-    url("../assets/dashboard-background.jpg");
+  background-color: #4a1dbe;
+}
+
+.dashboard-slideshow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.dashboard-slide {
+  position: absolute;
+  inset: 0;
 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+  opacity: 0;
+  transform: scale(1.06);
+  transition:
+    opacity 1.4s ease-in-out,
+    transform 5s ease-out;
+}
+
+.dashboard-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.dashboard-slideshow-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(74, 29, 190, 0.92) 0%,
+    rgba(107, 63, 209, 0.82) 55%,
+    rgba(145, 105, 214, 0.72) 100%
+  );
+}
+
+/* Carrusel (marquee) con palabras y distintivos de colores.
+   Se coloca sobre el corte entre el hero morado y la sección blanca. */
+.marquee {
+  position: relative;
+  z-index: 9;
+
+  width: 100%;
+  margin-top: -44px;
+  padding: 22px 0;
+
+  overflow: hidden;
+
+  background: linear-gradient(90deg, #3a1a9e, #5a2fce);
+  box-shadow: 0 12px 30px rgb(20 10 70 / 25%);
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+
+  animation: marquee-scroll 26s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 34px;
+
+  color: #ffffff;
+  font-size: clamp(22px, 2.4vw, 34px);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.marquee-shape {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+}
+
+.marquee-shape-circle {
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.marquee-shape-square {
+  border-radius: 4px;
+  background-color: currentColor;
+}
+
+.marquee-shape-triangle {
+  width: 0;
+  height: 0;
+  background-color: transparent;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 22px solid currentColor;
+}
+
+.marquee-shape-diamond {
+  background-color: currentColor;
+  transform: rotate(45deg);
+  border-radius: 3px;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
 }
 
 .dashboard-content {
@@ -26,8 +141,9 @@
   margin: 0 auto;
 
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  align-items: center;
+  grid-template-columns: 1fr;
+  align-items: start;
+  padding-top: clamp(50px, 9vh, 120px);
 }
 
 .dashboard-text {
@@ -58,82 +174,9 @@
 }
 
 .dashboard-text p {
-  margin: 28px 0 0 118px;
+  margin: 28px 0 0 0;
   color: rgba(255, 255, 255, 0.68);
   font-size: clamp(20px, 2vw, 31px);
-}
-
-.student-area {
-  position: relative;
-  align-self: stretch;
-  min-height: calc(100vh - 110px);
-
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.green-quarter-circle {
-  position: absolute;
-  right: -80px;
-  bottom: -220px;
-
-  width: 760px;
-  height: 760px;
-
-  border-radius: 100% 0 0 0;
-  background: linear-gradient(135deg, #caff2c, #9dee00);
-
-  box-shadow: inset 20px 20px 60px rgb(255 255 255 / 14%);
-}
-
-/* Espacio temporal para la imagen */
-.student-placeholder {
-  position: relative;
-  z-index: 3;
-
-  width: min(560px, 90%);
-  height: 720px;
-
-  margin-bottom: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 3px dashed rgba(255, 255, 255, 0.7);
-  border-bottom: none;
-  border-radius: 30px 30px 0 0;
-
-  background-color: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.8);
-
-  font-size: 18px;
-  font-weight: 600;
-}
-
-/*
-Cuando tengas la imagen del niño, sustituye el div anterior por:
-
-<img
-  className="student-image"
-  src={imagenNino}
-  alt="Alumno"
-/>
-*/
-
-.student-image {
-  position: relative;
-  z-index: 4;
-
-  width: min(650px, 100%);
-  max-height: calc(100vh - 125px);
-
-  align-self: flex-end;
-  object-fit: contain;
-  object-position: bottom;
-
-  filter: drop-shadow(0 18px 20px rgb(22 8 70 / 25%));
 }
 
 .dashboard-background-shape {
@@ -171,7 +214,7 @@ Cuando tengas la imagen del niño, sustituye el div anterior por:
 .hero-title-white {
   display: block;
   color: #ffffff;
-  font-size: clamp(62px, 6.5vw, 108px);
+  font-size: clamp(74px, 8vw, 138px);
   font-weight: 700;
 }
 
@@ -179,33 +222,33 @@ Cuando tengas la imagen del niño, sustituye el div anterior por:
   display: block;
   margin-top: 12px;
   color: #aaa8e9;
-  font-size: clamp(52px, 5.6vw, 92px);
+  font-size: clamp(62px, 6.8vw, 116px);
   font-weight: 700;
   white-space: nowrap;
 }
 
-.underlined-word {
+.underlined-phrase {
   position: relative;
   display: inline-block;
-  padding-bottom: 7px;
+  padding-bottom: 9px;
 }
 
-.underlined-word::after {
+.underlined-phrase::after {
   content: "";
   position: absolute;
   right: 0;
   bottom: -1px;
   left: 0;
-  height: 4px;
+  height: 5px;
   border-radius: 999px;
   background-color: #aaa8e9;
 }
 
 .hero-description {
-  max-width: 650px;
-  margin: 32px 0 0;
+  max-width: 780px;
+  margin: 38px 0 0;
   color: #ffffff;
-  font-size: clamp(21px, 2vw, 31px);
+  font-size: clamp(24px, 2.4vw, 38px);
   font-weight: 700;
   line-height: 1.15;
 }
@@ -312,19 +355,6 @@ Cuando tengas la imagen del niño, sustituye el div anterior por:
   .dashboard-text p {
     margin-left: 0;
   }
-
-  .student-area {
-    min-height: 560px;
-  }
-
-  .green-quarter-circle {
-    right: 50%;
-    transform: translateX(50%);
-  }
-
-  .student-placeholder {
-    height: 500px;
-  }
 }
 
 @media (max-width: 600px) {
@@ -348,5 +378,79 @@ Cuando tengas la imagen del niño, sustituye el div anterior por:
 
   .dashboard-text p {
     font-size: 19px;
+  }
+}
+
+/* ==========================================================================
+   Sección "Por qué elegir EARJ"
+   ========================================================================== */
+.why-section {
+  width: 100%;
+  padding: clamp(56px, 9vw, 110px) 24px;
+  background-color: #ffffff;
+}
+
+.why-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.why-shapes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.why-shape {
+  width: 26px;
+  height: 26px;
+}
+
+.why-shape-circle {
+  border-radius: 50%;
+  background-color: #1f2a6b;
+}
+
+.why-shape-triangle {
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-bottom: 26px solid #2f9e44;
+}
+
+.why-shape-square {
+  border-radius: 3px;
+  background-color: #d61f26;
+}
+
+.why-title {
+  margin: 0 0 26px;
+  color: #1f2a6b;
+  font-size: clamp(26px, 3.4vw, 40px);
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.why-text {
+  margin: 0 auto;
+  max-width: 820px;
+  color: #2b3568;
+  font-size: clamp(17px, 1.7vw, 23px);
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .why-title {
+    letter-spacing: 1.5px;
+  }
+
+  .why-text {
+    font-size: 16px;
   }
 }

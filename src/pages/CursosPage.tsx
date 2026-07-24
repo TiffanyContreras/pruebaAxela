@@ -1,219 +1,121 @@
+import { useState } from "react";
 import "./CursosPage.css";
+import cursoLengua from "../assets/curso-lengua.png";
+import cursoMatematicas from "../assets/curso-matematicas.png";
+import cursoCiencia from "../assets/curso-ciencia.png";
+import cursoSociales from "../assets/curso-sociales.png";
+import cursoLetras from "../assets/curso-letras.png";
+import cursoEducacionFisica from "../assets/curso-educacion-fisica.png";
+
+const materias = [
+  {
+    img: cursoLengua,
+    nombre: "Lengua y alfabetización",
+    codigo: "C001",
+    jornada: "Matutina",
+    horario: "07:00 - 08:00",
+    descripcion:
+      "Actividades diarias que refuerzan las destrezas lingüísticas y preparan a los alumnos para la lectura y la escritura.",
+  },
+  {
+    img: cursoMatematicas,
+    nombre: "Matemáticas",
+    codigo: "C002",
+    jornada: "Matutina",
+    horario: "08:00 - 09:00",
+    descripcion:
+      "Conceptos fundamentales como contar, formas, patrones y resolución de problemas sencillos.",
+  },
+  {
+    img: cursoCiencia,
+    nombre: "Ciencia y exploración",
+    codigo: "C003",
+    jornada: "Matutina",
+    horario: "09:00 - 10:00",
+    descripcion:
+      "Actividades prácticas que introducen conceptos científicos básicos y fomentan la exploración del mundo natural.",
+  },
+  {
+    img: cursoSociales,
+    nombre: "Estudios sociales",
+    codigo: "C004",
+    jornada: "Matutina",
+    horario: "10:00 - 11:00",
+    descripcion:
+      "Aprender sobre las relaciones, los papeles en la comunidad y la comprensión de las culturas.",
+  },
+  {
+    img: cursoLetras,
+    nombre: "Letras",
+    codigo: "C005",
+    jornada: "Matutina",
+    horario: "11:00 - 12:00",
+    descripcion:
+      "La música, las artes visuales, el teatro y el movimiento se integran en el proceso de aprendizaje.",
+  },
+  {
+    img: cursoEducacionFisica,
+    nombre: "Educación física",
+    codigo: "C006",
+    jornada: "Matutina",
+    horario: "12:00 - 13:00",
+    descripcion:
+      "Actividades estructuradas y no estructuradas para promover la salud física y la coordinación.",
+  },
+];
 
 function CursosPage() {
+  const [seleccionado, setSeleccionado] = useState(0);
+  const curso = materias[seleccionado];
+
   return (
     <section className="cursos-page">
       <div className="page-header">
         <div>
           <h1>Gestión de cursos</h1>
-          <p>Registra y consulta los cursos disponibles del colegio.</p>
+          <p>Selecciona un área para ver la información del curso.</p>
         </div>
       </div>
 
-      <div className="form-card">
-        <h2>Agregar curso</h2>
+      <div className="materias-section">
+        <h2 className="materias-title">Áreas de aprendizaje</h2>
 
-        <form className="curso-form">
-          <div className="form-group">
-            <label htmlFor="codigoCurso">Código</label>
-            <input
-              id="codigoCurso"
-              type="text"
-              placeholder="Ejemplo: C001"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="nombreCurso">Nombre del curso</label>
-            <input
-              id="nombreCurso"
-              type="text"
-              placeholder="Ejemplo: Matemática"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="gradoCurso">Grado</label>
-            <select id="gradoCurso" defaultValue="">
-              <option value="" disabled>
-                Seleccione un grado
-              </option>
-              <option value="primero">Primero primaria</option>
-              <option value="segundo">Segundo primaria</option>
-              <option value="tercero">Tercero primaria</option>
-              <option value="cuarto">Cuarto primaria</option>
-              <option value="quinto">Quinto primaria</option>
-              <option value="sexto">Sexto primaria</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="seccionCurso">Sección</label>
-            <select id="seccionCurso" defaultValue="">
-              <option value="" disabled>
-                Seleccione una sección
-              </option>
-              <option value="A">A</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="jornada">Jornada</label>
-            <select id="jornada" defaultValue="">
-              <option value="" disabled>
-                Seleccione una jornada
-              </option>
-              <option value="matutina">Matutina</option>
-              <option value="vespertina">Vespertina</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="maestro">Maestro asignado</label>
-            <select id="maestro" defaultValue="">
-              <option value="" disabled>
-                Seleccione un maestro
-              </option>
-              <option value="laura">Laura García</option>
-              <option value="carlos">Carlos Méndez</option>
-              <option value="andrea">Andrea López</option>
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="horaInicio">Hora de inicio</label>
-            <input id="horaInicio" type="time" />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="horaFin">Hora de finalización</label>
-            <input id="horaFin" type="time" />
-          </div>
-
-          <div className="form-group form-group-full">
-            <label htmlFor="descripcionCurso">Descripción</label>
-            <textarea
-              id="descripcionCurso"
-              rows={3}
-              placeholder="Ingrese una descripción del curso"
-            />
-          </div>
-
-          <div className="form-actions form-group-full">
-            <button type="reset" className="button-secondary">
-              Limpiar
+        <div className="materias-grid">
+          {materias.map((materia, index) => (
+            <button
+              type="button"
+              className={`materia-card${index === seleccionado ? " is-selected" : ""}`}
+              key={materia.nombre}
+              onClick={() => setSeleccionado(index)}
+              aria-pressed={index === seleccionado}
+            >
+              <img src={materia.img} alt={materia.nombre} loading="lazy" />
             </button>
-
-            <button type="button" className="button-primary">
-              Agregar curso
-            </button>
-          </div>
-        </form>
+          ))}
+        </div>
       </div>
 
-      <div className="table-card">
-        <div className="table-header">
-          <div>
-            <h2>Listado de cursos</h2>
-            <p>Cursos registrados actualmente.</p>
-          </div>
-
-          <input
-            className="search-input"
-            type="search"
-            placeholder="Buscar curso..."
-          />
+      <div className="curso-detalle">
+        <div className="curso-detalle-header">
+          <h2>{curso.nombre}</h2>
+          <span className="curso-detalle-codigo">{curso.codigo}</span>
         </div>
 
-        <div className="table-container">
-          <table className="cursos-table">
-            <thead>
-              <tr>
-                <th>Código</th>
-                <th>Curso</th>
-                <th>Grado</th>
-                <th>Sección</th>
-                <th>Jornada</th>
-                <th>Maestro</th>
-                <th>Horario</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
+        <p className="curso-detalle-desc">{curso.descripcion}</p>
 
-            <tbody>
-              <tr>
-                <td>C001</td>
-                <td>Matemática</td>
-                <td>Primero primaria</td>
-                <td>A</td>
-                <td>Matutina</td>
-                <td>Laura García</td>
-                <td>07:00 - 08:00</td>
-                <td>
-                  <span className="status status-active">Activo</span>
-                </td>
-                <td>
-                  <div className="table-actions">
-                    <button type="button" className="edit-button">
-                      Editar
-                    </button>
-                    <button type="button" className="delete-button">
-                      Eliminar
-                    </button>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td>C002</td>
-                <td>Comunicación y Lenguaje</td>
-                <td>Segundo primaria</td>
-                <td>B</td>
-                <td>Matutina</td>
-                <td>Carlos Méndez</td>
-                <td>08:00 - 09:00</td>
-                <td>
-                  <span className="status status-active">Activo</span>
-                </td>
-                <td>
-                  <div className="table-actions">
-                    <button type="button" className="edit-button">
-                      Editar
-                    </button>
-                    <button type="button" className="delete-button">
-                      Eliminar
-                    </button>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td>C003</td>
-                <td>Ciencias Naturales</td>
-                <td>Tercero primaria</td>
-                <td>A</td>
-                <td>Vespertina</td>
-                <td>Andrea López</td>
-                <td>13:00 - 14:00</td>
-                <td>
-                  <span className="status status-inactive">Inactivo</span>
-                </td>
-                <td>
-                  <div className="table-actions">
-                    <button type="button" className="edit-button">
-                      Editar
-                    </button>
-                    <button type="button" className="delete-button">
-                      Eliminar
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div className="curso-detalle-info">
+          <div className="detalle-item">
+            <span className="detalle-label">Código</span>
+            <span className="detalle-valor">{curso.codigo}</span>
+          </div>
+          <div className="detalle-item">
+            <span className="detalle-label">Jornada</span>
+            <span className="detalle-valor">{curso.jornada}</span>
+          </div>
+          <div className="detalle-item">
+            <span className="detalle-label">Horario</span>
+            <span className="detalle-valor">{curso.horario}</span>
+          </div>
         </div>
       </div>
     </section>

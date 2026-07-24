@@ -1,43 +1,149 @@
-.alumnos-page {
-  width: 100%;
+/* ==========================================================================
+   Sistema visual compartido para las páginas de gestión
+   (Alumnos, Cursos, Reportes, Maestros)
+   Paleta principal: azul marino del colegio (#1f2a6b)
+   ========================================================================== */
+
+:root {
+  --brand: #1f2a6b;
+  --brand-dark: #172052;
+  --brand-soft: #eef0fb;
+  --brand-soft-2: #e5e8fa;
+  --ink: #1f2937;
+  --ink-soft: #6b7280;
+  --line: #e6e8f0;
+  --surface: #ffffff;
+  --bg: #f4f6fb;
+  --radius: 16px;
+  --shadow: 0 10px 30px rgb(20 27 80 / 8%);
+  --shadow-hover: 0 16px 40px rgb(20 27 80 / 14%);
 }
 
+.alumnos-page,
+.cursos-page,
+.reportes-page,
+.maestros-page {
+  width: 100%;
+  min-height: calc(100vh - 96px);
+  padding: clamp(20px, 4vw, 42px);
+  background-color: var(--bg);
+}
+
+/* ---------- Banner de registro ---------- */
+.registro-banner {
+  position: relative;
+  width: 100%;
+  height: clamp(180px, 26vw, 300px);
+  margin-bottom: 28px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.registro-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.registro-banner-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: clamp(20px, 4vw, 38px);
+  background: linear-gradient(
+    90deg,
+    rgba(23, 32, 82, 0.88) 0%,
+    rgba(31, 42, 107, 0.55) 55%,
+    rgba(31, 42, 107, 0.15) 100%
+  );
+}
+
+.registro-banner-overlay h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(26px, 3.6vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.registro-banner-overlay p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(14px, 1.6vw, 17px);
+}
+
+/* ---------- Encabezado de página ---------- */
 .page-header {
-  margin-bottom: 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--line);
 }
 
 .page-header h1 {
   margin: 0;
-  color: #1f2937;
-  font-size: 30px;
+  color: var(--brand);
+  font-size: clamp(26px, 3.4vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 
 .page-header p {
   margin: 8px 0 0;
-  color: #6b7280;
+  color: var(--ink-soft);
+  font-size: 15px;
 }
 
+/* ---------- Tarjetas ---------- */
 .form-card,
 .table-card {
-  padding: 24px;
+  padding: clamp(20px, 3vw, 30px);
   margin-bottom: 28px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 3px 12px rgb(0 0 0 / 8%);
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
 .form-card h2,
 .table-card h2 {
+  position: relative;
   margin: 0;
-  color: #1f2937;
-  font-size: 21px;
+  padding-left: 14px;
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 800;
 }
 
-.alumno-form {
+.form-card h2::before,
+.table-card h2::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 0;
+  bottom: 3px;
+  width: 5px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--brand), #4a5bd1);
+}
+
+/* ---------- Formularios ---------- */
+.alumno-form,
+.curso-form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
-  margin-top: 24px;
+  margin-top: 26px;
 }
 
 .form-group {
@@ -53,7 +159,7 @@
 .form-group label {
   color: #374151;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .form-group input,
@@ -61,24 +167,43 @@
 .form-group textarea,
 .search-input {
   width: 100%;
-  padding: 11px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background-color: #ffffff;
-  color: #1f2937;
+  padding: 12px 14px;
+  border: 1.5px solid #d7dbe8;
+  border-radius: 10px;
+  background-color: #fbfcfe;
+  color: var(--ink);
   font-size: 14px;
   outline: none;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder,
+.search-input::placeholder {
+  color: #9aa2b8;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover,
+.search-input:hover {
+  border-color: #b9c0d6;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus,
 .search-input:focus {
-  border-color: #1e3a5f;
-  box-shadow: 0 0 0 3px rgb(30 58 95 / 12%);
+  border-color: var(--brand);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgb(31 42 107 / 12%);
 }
 
 .form-group textarea {
+  min-height: 96px;
   resize: vertical;
 }
 
@@ -86,100 +211,240 @@
   display: flex;
   justify-content: flex-end;
   gap: 12px;
+  margin-top: 4px;
 }
 
+/* ---------- Botones ---------- */
 .button-primary,
 .button-secondary,
 .edit-button,
 .delete-button {
   border: none;
-  border-radius: 7px;
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
+  font-family: inherit;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
 }
 
 .button-primary,
 .button-secondary {
-  padding: 11px 18px;
+  padding: 12px 22px;
+  font-size: 14px;
 }
 
 .button-primary {
-  background-color: #1e3a5f;
+  background: linear-gradient(135deg, var(--brand), #33409a);
   color: #ffffff;
+  box-shadow: 0 8px 18px rgb(31 42 107 / 25%);
 }
 
 .button-primary:hover {
-  background-color: #162f4e;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgb(31 42 107 / 32%);
 }
 
 .button-secondary {
-  background-color: #e5e7eb;
-  color: #374151;
+  background-color: #eceefb;
+  color: var(--brand);
 }
 
 .button-secondary:hover {
-  background-color: #d1d5db;
+  background-color: #dfe3f8;
+  transform: translateY(-2px);
 }
 
+/* ---------- Cabecera de tabla + búsqueda ---------- */
 .table-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
+  flex-wrap: wrap;
   margin-bottom: 20px;
 }
 
 .table-header p {
   margin: 6px 0 0;
-  color: #6b7280;
+  color: var(--ink-soft);
   font-size: 14px;
 }
 
 .search-input {
-  max-width: 260px;
+  max-width: 300px;
 }
 
+/* ---------- Tablas ---------- */
 .table-container {
   width: 100%;
   overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
 }
 
-.alumnos-table {
+.alumnos-table,
+.cursos-table,
+.reporte-table {
   width: 100%;
-  min-width: 950px;
   border-collapse: collapse;
 }
 
+.alumnos-table {
+  min-width: 950px;
+}
+
+.cursos-table {
+  min-width: 1050px;
+}
+
 .alumnos-table th,
-.alumnos-table td {
-  padding: 14px 12px;
-  border-bottom: 1px solid #e5e7eb;
+.alumnos-table td,
+.cursos-table th,
+.cursos-table td,
+.reporte-table th,
+.reporte-table td {
+  padding: 15px 14px;
+  border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: middle;
 }
 
-.alumnos-table th {
-  background-color: #f8fafc;
-  color: #374151;
-  font-size: 13px;
+.alumnos-table th,
+.cursos-table th,
+.reporte-table th {
+  background-color: #f3f5fc;
+  color: var(--brand);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
   text-transform: uppercase;
 }
 
-.alumnos-table td {
+.alumnos-table td,
+.cursos-table td,
+.reporte-table td {
   color: #4b5563;
   font-size: 14px;
 }
 
-.alumnos-table tbody tr:hover {
-  background-color: #f9fafb;
+.alumnos-table tbody tr,
+.cursos-table tbody tr,
+.reporte-table tbody tr {
+  transition: background-color 0.15s ease;
 }
 
+.alumnos-table tbody tr:hover,
+.cursos-table tbody tr:hover,
+.reporte-table tbody tr:hover {
+  background-color: #f6f8ff;
+}
+
+.alumnos-table tbody tr:last-child td,
+.cursos-table tbody tr:last-child td,
+.reporte-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---------- Selección de cursos ---------- */
+.cursos-checklist {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.curso-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+
+  border: 1.5px solid #d7dbe8;
+  border-radius: 10px;
+  background-color: #fbfcfe;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.curso-check:hover {
+  border-color: #b9c0d6;
+}
+
+.curso-check.is-active {
+  border-color: var(--brand);
+  background-color: var(--brand-soft);
+  box-shadow: 0 0 0 3px rgb(31 42 107 / 10%);
+}
+
+.curso-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--brand);
+  cursor: pointer;
+}
+
+.curso-check-codigo {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: #e5e8fa;
+  color: var(--brand);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+@media (max-width: 800px) {
+  .cursos-checklist {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Mensaje de éxito ---------- */
+.form-success {
+  margin-top: 18px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background-color: #dcfce7;
+  border: 1px solid #86efac;
+  color: #166534;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.alumnos-note {
+  max-width: 640px;
+  margin: 4px 0 0;
+  padding: 16px 18px;
+  border-left: 4px solid var(--brand);
+  border-radius: 8px;
+  background-color: var(--brand-soft);
+  color: var(--brand);
+  font-size: 14px;
+}
+
+/* ---------- Fila vacía ---------- */
+.report-empty {
+  padding: 38px 14px !important;
+  text-align: center !important;
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
+/* ---------- Estados (badges) ---------- */
 .status {
   display: inline-block;
-  padding: 5px 9px;
+  padding: 5px 12px;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .status-active {
@@ -192,6 +457,7 @@
   color: #991b1b;
 }
 
+/* ---------- Acciones de fila ---------- */
 .table-actions {
   display: flex;
   gap: 8px;
@@ -199,7 +465,7 @@
 
 .edit-button,
 .delete-button {
-  padding: 7px 10px;
+  padding: 8px 12px;
   font-size: 12px;
 }
 
@@ -208,13 +474,23 @@
   color: #1d4ed8;
 }
 
+.edit-button:hover {
+  background-color: #c3d9fd;
+}
+
 .delete-button {
   background-color: #fee2e2;
   color: #b91c1c;
 }
 
+.delete-button:hover {
+  background-color: #fbcfcf;
+}
+
+/* ---------- Responsive ---------- */
 @media (max-width: 800px) {
-  .alumno-form {
+  .alumno-form,
+  .curso-form {
     grid-template-columns: 1fr;
   }
 
@@ -232,10 +508,10 @@
   }
 
   .form-actions {
-    justify-content: stretch;
+    flex-direction: column-reverse;
   }
 
   .form-actions button {
-    flex: 1;
+    width: 100%;
   }
 }

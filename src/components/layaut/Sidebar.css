@@ -10,30 +10,136 @@
   justify-content: space-between;
   gap: 24px;
 
-  background-color: #f2f0f5;
+  background-color: #1f2a6b;
 }
 
-.topbar-menu {
-  padding: 6px 14px;
-
+/* Logo a la izquierda */
+.topbar-logo {
   display: flex;
   align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.logo-img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+}
+
+.logo-text-main {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.logo-text-sub {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+/* Botón hamburguesa */
+.menu-toggle {
+  position: relative;
+  z-index: 30;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+
+  width: 48px;
+  height: 40px;
+  padding: 8px 6px;
+
+  border: none;
+  border-radius: 8px;
+  background-color: transparent;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.menu-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.menu-toggle span {
+  height: 3px;
+  width: 100%;
+  border-radius: 999px;
+  background-color: #ffffff;
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.2s ease;
+}
+
+.menu-toggle.is-open span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.menu-toggle.is-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.is-open span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Menú desplegable */
+.topbar-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 40px;
+  z-index: 25;
+
+  min-width: 240px;
+  padding: 12px;
+
+  display: flex;
+  flex-direction: column;
   gap: 4px;
 
   background-color: #ffffff;
-  border-radius: 999px;
-  box-shadow: 0 4px 14px rgb(38 20 95 / 6%);
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgb(15 22 70 / 22%);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    visibility 0.22s ease;
+}
+
+.topbar-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .topbar-menu a {
-  padding: 9px 18px;
+  padding: 11px 16px;
 
-  color: #3a3a3a;
-  border-radius: 999px;
+  color: #2b2f4a;
+  border-radius: 10px;
 
   text-decoration: none;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
 
   transition:
@@ -42,98 +148,67 @@
 }
 
 .topbar-menu a:hover {
-  background-color: #f1ecff;
-  color: #5b21b6;
+  background-color: #eef0fb;
+  color: #1f2a6b;
 }
 
 .topbar-menu a.active {
-  background-color: #ede7ff;
-  color: #5b21b6;
+  background-color: #e5e8fa;
+  color: #1f2a6b;
 }
 
-.topbar-right {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  flex-shrink: 0;
+.menu-user {
+  padding: 8px 16px;
+  color: #1f2a6b;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
 }
 
 .login-button {
-  padding: 11px 26px;
+  margin-top: 8px;
+  padding: 12px 26px;
 
   border: none;
-  border-radius: 999px;
+  border-radius: 10px;
 
-  background-color: #7c3aed;
+  background-color: #1f2a6b;
   color: #ffffff;
 
   cursor: pointer;
   font-size: 15px;
-  font-weight: 600;
-
-  box-shadow: 0 6px 16px rgb(124 58 237 / 25%);
+  font-weight: 700;
 
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease,
     background-color 0.2s ease;
 }
 
 .login-button:hover {
-  background-color: #6d28d9;
+  background-color: #172052;
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgb(124 58 237 / 32%);
 }
 
-/* Espacio reservado para el logo (círculo + "ilora") */
-.topbar-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
+/* Fondo semitransparente para cerrar el menú al hacer clic fuera */
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  cursor: default;
 }
 
-.logo-circle {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: conic-gradient(#5b21b6 0deg 90deg, #7c3aed 90deg 360deg);
-}
-
-.logo-text {
-  color: #2b2b2b;
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-/* Cuando tengas el logo como imagen, reemplaza el contenido de .topbar-logo por una <img> */
-.topbar-logo img {
-  height: 40px;
-  object-fit: contain;
-}
-
-@media (max-width: 1100px) {
+@media (max-width: 600px) {
   .topbar {
-    padding: 12px 24px;
-  }
-
-  .topbar-menu a {
-    padding: 8px 13px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 850px) {
-  .topbar {
-    flex-wrap: wrap;
-    justify-content: center;
+    padding: 12px 20px;
   }
 
   .topbar-menu {
-    order: 3;
-    width: 100%;
-    overflow-x: auto;
-    justify-content: flex-start;
+    right: 20px;
+    left: 20px;
+    min-width: 0;
   }
 }
