@@ -49,11 +49,11 @@ function Sidebar() {
         <NavLink to="/alumnos" onClick={closeMenu}>
           Registrar alumno
         </NavLink>
+        <NavLink to="/consultar-alumno" onClick={closeMenu}>
+          Consultar alumno por código
+        </NavLink>
         <NavLink to="/cursos" onClick={closeMenu}>
           Cursos
-        </NavLink>
-        <NavLink to="/reportes" onClick={closeMenu}>
-          Generar reporte de alumnos inscritos
         </NavLink>
 
         {isLoggedIn && <span className="menu-user">👤 {usuario}</span>}

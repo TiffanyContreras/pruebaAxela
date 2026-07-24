@@ -208,6 +208,34 @@
   line-height: 1.5;
 }
 
+.login-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 22px;
+  padding: 5px;
+  border-radius: 12px;
+  background-color: var(--brand-soft, #eef0fb);
+}
+
+.login-tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.login-tab.is-active {
+  background-color: #ffffff;
+  color: var(--brand);
+  box-shadow: 0 4px 12px rgb(20 27 80 / 10%);
+}
+
 .login-form {
   display: flex;
   flex-direction: column;
@@ -230,6 +258,109 @@
   color: #b91c1c;
   font-size: 13px;
   font-weight: 700;
+}
+
+/* Datos personales del alumno (vista propia) */
+.alumno-datos {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 600px) {
+  .alumno-datos {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Gestión de usuarios */
+.password-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.password-cell input {
+  flex: 1;
+  min-width: 90px;
+}
+
+.password-toggle {
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.password-toggle:hover {
+  background-color: var(--brand-soft, #eef0fb);
+}
+
+.credencial-mensaje {
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+/* Gestión de materias por alumno */
+.gestion-selector {
+  max-width: 420px;
+  margin: 22px 0 20px;
+}
+
+.gestion-table th,
+.gestion-table td {
+  vertical-align: middle;
+}
+
+.gestion-table select,
+.gestion-table input {
+  width: 100%;
+  min-width: 130px;
+  padding: 9px 10px;
+  border: 1.5px solid #d7dbe8;
+  border-radius: 8px;
+  background-color: #fbfcfe;
+  color: #1f2937;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+.gestion-table select:focus,
+.gestion-table input:focus {
+  border-color: #1f2a6b;
+  box-shadow: 0 0 0 3px rgb(31 42 107 / 12%);
+}
+
+.gestion-table .nota-input {
+  min-width: 80px;
+  max-width: 90px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.agregar-materia {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line, #e6e8f0);
+}
+
+.agregar-materia .form-group {
+  flex: 1;
+  min-width: 240px;
+}
+
+.button-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* Caja de sesión */

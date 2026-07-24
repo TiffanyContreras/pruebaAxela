@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { useApp, cursosDisponibles } from "../context/AppContext";
+import type { MateriaInscrita } from "../context/AppContext";
 import bannerRegistro from "../assets/registrar-alumno.png";
 import "./AlumnosPage.css";
 
@@ -18,15 +19,56 @@ const formularioVacio = {
 };
 
 function AlumnosPage() {
-  const { agregarAlumno } = useApp();
+  const { agregarAlumno, actualizarAlumno, generarCuentaAlumno, alumnos } = useApp();
   const [form, setForm] = useState(formularioVacio);
   const [mensaje, setMensaje] = useState("");
+  const [esExistente, setEsExistente] = useState(false);
+  const [materiasGuardadas, setMateriasGuardadas] = useState<MateriaInscrita[]>([]);
+  const [credenciales, setCredenciales] = useState<{
+    usuario: string;
+    password: string;
+    codigo: string;
+    nombre: string;
+  } | null>(null);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const cargarPorCodigo = () => {
+    const codigo = form.codigo.trim().toUpperCase();
+    if (!codigo) {
+      setEsExistente(false);
+      setMateriasGuardadas([]);
+      return;
+    }
+
+    const alumno = alumnos.find((a) => a.codigo.toUpperCase() === codigo);
+    if (alumno) {
+      setForm({
+        codigo: alumno.codigo,
+        nombre: alumno.nombre,
+        apellido: alumno.apellido,
+        fechaNacimiento: alumno.fechaNacimiento,
+        grado: alumno.grado,
+        seccion: alumno.seccion,
+        encargado: alumno.encargado,
+        telefono: alumno.telefono,
+        direccion: alumno.direccion,
+        cursos: alumno.materias.map((m) => m.curso),
+      });
+      setMateriasGuardadas(alumno.materias);
+      setEsExistente(true);
+      setMensaje(
+        `Datos de ${alumno.nombre} ${alumno.apellido} cargados. Puedes editarlos y agregar más cursos.`
+      );
+    } else {
+      setEsExistente(false);
+      setMateriasGuardadas([]);
+    }
   };
 
   const toggleCurso = (nombre: string) => {
@@ -41,6 +83,8 @@ function AlumnosPage() {
   const limpiar = () => {
     setForm(formularioVacio);
     setMensaje("");
+    setEsExistente(false);
+    setMateriasGuardadas([]);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -50,9 +94,43 @@ function AlumnosPage() {
       return;
     }
 
-    agregarAlumno(form);
+    const materias: MateriaInscrita[] = form.cursos.map((nombre) => {
+      const previa = materiasGuardadas.find((m) => m.curso === nombre);
+      if (previa) {
+        return previa;
+      }
+      const curso = cursosDisponibles.find((c) => c.nombre === nombre);
+      return {
+        curso: nombre,
+        maestro: curso?.maestro ?? "",
+        horario: curso?.horario ?? "",
+        nota: "",
+      };
+    });
+
+    const { cursos, ...datos } = form;
+    void cursos;
+
+    if (esExistente) {
+      actualizarAlumno(datos.codigo, { ...datos, materias });
+      setMensaje(
+        `Datos de ${form.nombre} ${form.apellido} actualizados correctamente.`
+      );
+    } else {
+      const nuevo = agregarAlumno({ ...datos, materias });
+      const cuenta = generarCuentaAlumno(nuevo);
+      setCredenciales({
+        usuario: cuenta.usuario,
+        password: cuenta.password,
+        codigo: nuevo.codigo,
+        nombre: `${nuevo.nombre} ${nuevo.apellido}`,
+      });
+      setMensaje(`Alumno ${form.nombre} ${form.apellido} registrado correctamente.`);
+    }
+
     setForm(formularioVacio);
-    setMensaje(`Alumno ${form.nombre} ${form.apellido} registrado correctamente.`);
+    setEsExistente(false);
+    setMateriasGuardadas([]);
   };
 
   return (
@@ -66,7 +144,7 @@ function AlumnosPage() {
       </div>
 
       <div className="form-card">
-        <h2>Datos del alumno</h2>
+        <h2>{esExistente ? "Editar alumno" : "Datos del alumno"}</h2>
 
         {mensaje && <div className="form-success">{mensaje}</div>}
 
@@ -79,8 +157,13 @@ function AlumnosPage() {
               name="codigo"
               value={form.codigo}
               onChange={handleChange}
-              placeholder="Se genera automáticamente si se deja vacío"
+              onBlur={cargarPorCodigo}
+              placeholder="Escribe un código existente para editar o déjalo vacío"
             />
+            <small className="form-hint">
+              Si escribes el código de un alumno ya registrado, sus datos se cargarán
+              automáticamente.
+            </small>
           </div>
 
           <div className="form-group">
@@ -207,7 +290,7 @@ function AlumnosPage() {
               Limpiar Campos
             </button>
             <button type="submit" className="button-primary">
-              Registrar Alumno
+              {esExistente ? "Guardar Cambios" : "Registrar Alumno"}
             </button>
           </div>
         </form>
@@ -217,6 +300,51 @@ function AlumnosPage() {
         El listado de alumnos y sus reportes están disponibles al iniciar sesión, en la
         sección <strong>“Generar reporte de alumnos inscritos”</strong>.
       </p>
+
+      {credenciales && (
+        <div
+          className="credenciales-overlay"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setCredenciales(null)}
+        >
+          <div
+            className="credenciales-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="credenciales-badge">✅</div>
+            <h3>¡Alumno registrado!</h3>
+            <p>
+              Se creó una cuenta para <strong>{credenciales.nombre}</strong> (código{" "}
+              <strong>{credenciales.codigo}</strong>). Usa estos datos para iniciar
+              sesión y ver la información del alumno.
+            </p>
+
+            <div className="credenciales-datos">
+              <div className="credencial-item">
+                <span className="credencial-label">Usuario</span>
+                <span className="credencial-valor">{credenciales.usuario}</span>
+              </div>
+              <div className="credencial-item">
+                <span className="credencial-label">Contraseña</span>
+                <span className="credencial-valor">{credenciales.password}</span>
+              </div>
+            </div>
+
+            <p className="credenciales-aviso">
+              Guarda estos datos: la contraseña no se volverá a mostrar.
+            </p>
+
+            <button
+              type="button"
+              className="button-primary"
+              onClick={() => setCredenciales(null)}
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

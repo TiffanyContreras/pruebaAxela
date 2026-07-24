@@ -56,27 +56,6 @@ function DashboardPage() {
   <p className="hero-description">
     Gestiona alumnos, maestros, cursos y reportes desde un solo lugar.
   </p>
-
-  <div className="hero-actions">
-    <button type="button" className="discover-button">
-      <span>Descubre más</span>
-      <span className="discover-arrow">→</span>
-    </button>
-
-    <button
-      type="button"
-      className="favorite-button"
-      aria-label="Agregar a favoritos"
-    >
-      ☆
-    </button>
-  </div>
-
-  <div className="hero-dots" aria-hidden="true">
-    <span />
-    <span />
-    <span />
-  </div>
 </div>
       </div>
     </section>
