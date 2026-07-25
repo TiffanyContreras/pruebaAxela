@@ -1,12 +1,10 @@
-/* Los estilos de tarjetas, formularios y botones base son compartidos
-   y viven en AlumnosPage.css (sistema visual común).
-   Aquí solo van ajustes específicos de la página de cursos. */
+/* ajustes específicos de la página de cursos. */
 
 .cursos-page {
   width: 100%;
 }
 
-/* Galería de áreas / materias */
+
 .materias-section {
   margin-bottom: 28px;
 }
@@ -31,7 +29,7 @@
   background: linear-gradient(180deg, #1f2a6b, #4a5bd1);
 }
 
-/* Cuadrícula que llena todo el ancho */
+
 .materias-grid {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -78,7 +76,7 @@
   object-fit: cover;
 }
 
-/* Panel de detalle del curso seleccionado */
+
 .curso-detalle {
   padding: clamp(22px, 3vw, 32px);
   background-color: #ffffff;

@@ -189,7 +189,7 @@
   transform: translateY(-1px);
 }
 
-/* Fondo semitransparente para cerrar el menú al hacer clic fuera */
+
 .menu-backdrop {
   position: fixed;
   inset: 0;

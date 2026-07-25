@@ -18,5 +18,12 @@ export default defineConfig([
     languageOptions: {
       globals: globals.browser,
     },
+    rules: {
+      // AppContext exporta AppProvider + useApp (patrón válido de Context)
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true, allowExportNames: ['useApp'] },
+      ],
+    },
   },
 ])

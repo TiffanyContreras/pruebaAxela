@@ -1,7 +1,8 @@
 import { useState } from "react";
-import type { ChangeEvent, FormEvent } from "react";
-import { useApp, cursosDisponibles } from "../context/AppContext";
-import type { MateriaInscrita } from "../context/AppContext";
+import type { ChangeEvent, SubmitEvent } from "react";
+import { useApp } from "../context/AppContext";
+import { cursosDisponibles } from "../data/school";
+import type { MateriaInscrita } from "../data/school";
 import bannerRegistro from "../assets/registrar-alumno.png";
 import "./AlumnosPage.css";
 
@@ -87,7 +88,7 @@ function AlumnosPage() {
     setMateriasGuardadas([]);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!form.nombre.trim() || !form.apellido.trim()) {

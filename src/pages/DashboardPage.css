@@ -44,8 +44,7 @@
   );
 }
 
-/* Carrusel (marquee) con palabras y distintivos de colores.
-   Se coloca sobre el corte entre el hero morado y la sección blanca. */
+
 .marquee {
   position: relative;
   z-index: 9;
@@ -381,9 +380,7 @@
   }
 }
 
-/* ==========================================================================
-   Sección "Por qué elegir EARJ"
-   ========================================================================== */
+
 .why-section {
   width: 100%;
   padding: clamp(56px, 9vw, 110px) 24px;

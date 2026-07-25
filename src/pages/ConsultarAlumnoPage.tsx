@@ -1,7 +1,9 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { useApp, gradoLabel } from "../context/AppContext";
-import type { Alumno } from "../context/AppContext";
+import { alumnosService, apiConfig } from "../api";
+import { useApp } from "../context/AppContext";
+import { gradoLabel } from "../data/school";
+import type { Alumno } from "../data/school";
 import "./AlumnosPage.css";
 
 function ConsultarAlumnoPage() {
@@ -9,8 +11,9 @@ function ConsultarAlumnoPage() {
   const [codigoConsulta, setCodigoConsulta] = useState("");
   const [alumnoConsultado, setAlumnoConsultado] = useState<Alumno | null>(null);
   const [errorConsulta, setErrorConsulta] = useState("");
+  const [cargando, setCargando] = useState(false);
 
-  const consultarAlumno = (event: FormEvent<HTMLFormElement>) => {
+  const consultarAlumno = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const codigo = codigoConsulta.trim().toUpperCase();
     if (!codigo) {
@@ -18,14 +21,38 @@ function ConsultarAlumnoPage() {
       setErrorConsulta("Ingrese un código para consultar.");
       return;
     }
-    const encontrado = alumnos.find((a) => a.codigo.toUpperCase() === codigo);
-    if (encontrado) {
-      setAlumnoConsultado(encontrado);
+
+ 
+    const local = alumnos.find((a) => a.codigo.toUpperCase() === codigo);
+    if (local) {
+      setAlumnoConsultado(local);
       setErrorConsulta("");
-    } else {
-      setAlumnoConsultado(null);
-      setErrorConsulta(`No se encontró ningún alumno con el código "${codigo}".`);
+      return;
     }
+
+ 
+    if (!apiConfig.useMock && apiConfig.baseUrl) {
+      setCargando(true);
+      setErrorConsulta("");
+      try {
+        const remoto = await alumnosService.obtenerPorCodigo(codigo);
+        if (remoto) {
+          setAlumnoConsultado(remoto);
+          return;
+        }
+        setAlumnoConsultado(null);
+        setErrorConsulta(`No se encontró ningún alumno con el código "${codigo}".`);
+      } catch {
+        setAlumnoConsultado(null);
+        setErrorConsulta("No se pudo consultar el alumno en el servidor.");
+      } finally {
+        setCargando(false);
+      }
+      return;
+    }
+
+    setAlumnoConsultado(null);
+    setErrorConsulta(`No se encontró ningún alumno con el código "${codigo}".`);
   };
 
   return (
@@ -50,8 +77,8 @@ function ConsultarAlumnoPage() {
             placeholder="Ej. A001"
             aria-label="Código del alumno"
           />
-          <button type="submit" className="button-primary">
-            Consultar
+          <button type="submit" className="button-primary" disabled={cargando}>
+            {cargando ? "Consultando..." : "Consultar"}
           </button>
         </form>
 

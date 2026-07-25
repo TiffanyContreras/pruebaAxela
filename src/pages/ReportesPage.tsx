@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import type { FormEvent } from "react";
-import { useApp, gradoLabel, cursosDisponibles, maestros } from "../context/AppContext";
-import type { Alumno } from "../context/AppContext";
+import type { SubmitEvent } from "react";
+import { useApp } from "../context/AppContext";
+import { gradoLabel, cursosDisponibles, maestros } from "../data/school";
+import type { Alumno } from "../data/school";
 import reporteBg1 from "../assets/reporte-bg-1.png";
 import reporteBg2 from "../assets/reporte-bg-2.png";
 import reporteBg3 from "../assets/reporte-bg-3.png";
@@ -66,7 +67,7 @@ function LoginCard() {
     limpiarCampos();
   };
 
-  const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+  const handleLogin = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     const ok = login(usuario, password);
     if (!ok) {
@@ -76,7 +77,7 @@ function LoginCard() {
     setPassword("");
   };
 
-  const handleRegistro = (event: FormEvent<HTMLFormElement>) => {
+  const handleRegistro = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (password !== confirmar) {
@@ -761,10 +762,7 @@ function ReportesPage() {
             .join("")
         : `<tr><td colspan="${encabezados.length}" style="text-align:center;">Sin alumnos que coincidan con los filtros.</td></tr>`;
 
-    const ventana = window.open("", "_blank");
-    if (!ventana) return;
-
-    ventana.document.write(`<!DOCTYPE html><html lang="es"><head>
+    const html = `<!DOCTYPE html><html lang="es"><head>
       <meta charset="utf-8" />
       <title>Reporte de alumnos inscritos</title>
       <style>
@@ -788,8 +786,24 @@ function ReportesPage() {
       </table>
       <p class="aviso">Usa el diálogo de impresión y elige "Guardar como PDF" para descargar el reporte.</p>
       <script>window.onload = function(){ window.print(); };</script>
-    </body></html>`);
-    ventana.document.close();
+    </body></html>`;
+
+   
+    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const ventana = window.open(url, "_blank");
+    if (!ventana) {
+      URL.revokeObjectURL(url);
+      return;
+    }
+
+    ventana.addEventListener(
+      "load",
+      () => {
+        URL.revokeObjectURL(url);
+      },
+      { once: true }
+    );
   };
 
   if (!isLoggedIn) {

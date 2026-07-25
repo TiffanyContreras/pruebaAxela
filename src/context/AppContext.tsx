@@ -1,5 +1,11 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
+import {
+  alumnosIniciales,
+  materiaPorNombre,
+  usuariosValidos,
+} from "../data/school";
+import type { Alumno, MateriaInscrita, Rol, UsuarioValido } from "../data/school";
 
 const STORAGE_ALUMNOS = "escuelaBrasil.alumnos";
 const STORAGE_USUARIOS = "escuelaBrasil.usuarios";
@@ -16,133 +22,6 @@ function cargarDesdeStorage<T>(clave: string, porDefecto: T): T {
   }
   return porDefecto;
 }
-
-export type MateriaInscrita = {
-  curso: string;
-  maestro: string;
-  horario: string;
-  nota: string;
-};
-
-export type Alumno = {
-  codigo: string;
-  nombre: string;
-  apellido: string;
-  fechaNacimiento: string;
-  grado: string;
-  seccion: string;
-  encargado: string;
-  telefono: string;
-  direccion: string;
-  materias: MateriaInscrita[];
-  estado: "Activo" | "Inactivo";
-};
-
-export const gradoLabel: Record<string, string> = {
-  "1": "Primero primaria",
-  "2": "Segundo primaria",
-  "3": "Tercero primaria",
-};
-
-/* Maestros disponibles en la plataforma */
-export const maestros = [
-  "Laura García",
-  "Carlos Méndez",
-  "Andrea López",
-  "José Ramírez",
-  "María Fernández",
-  "Pedro Gómez",
-];
-
-/* Cursos disponibles en la plataforma (mismos de la página de Cursos),
-   con su maestro y horario por defecto. */
-export const cursosDisponibles = [
-  { codigo: "C001", nombre: "Lengua y alfabetización", maestro: "Laura García", horario: "07:00 - 08:00" },
-  { codigo: "C002", nombre: "Matemáticas", maestro: "Carlos Méndez", horario: "08:00 - 09:00" },
-  { codigo: "C003", nombre: "Ciencia y exploración", maestro: "Andrea López", horario: "09:00 - 10:00" },
-  { codigo: "C004", nombre: "Estudios sociales", maestro: "José Ramírez", horario: "10:00 - 11:00" },
-  { codigo: "C005", nombre: "Letras", maestro: "María Fernández", horario: "11:00 - 12:00" },
-  { codigo: "C006", nombre: "Educación física", maestro: "Pedro Gómez", horario: "12:00 - 13:00" },
-];
-
-export type Rol = "admin" | "alumno";
-
-export type UsuarioValido = {
-  usuario: string;
-  password: string;
-  rol: Rol;
-  codigoAlumno?: string;
-};
-
-/* Usuarios y contraseñas quemados en el código para iniciar sesión */
-export const usuariosValidos: UsuarioValido[] = [
-  { usuario: "admin", password: "123456", rol: "admin" },
-  { usuario: "maestro", password: "clase2025", rol: "admin" },
-  { usuario: "director", password: "colegio123", rol: "admin" },
-  { usuario: "ana.lopez", password: "ana2025", rol: "alumno", codigoAlumno: "A001" },
-  { usuario: "carlos.perez", password: "carlos2025", rol: "alumno", codigoAlumno: "A002" },
-  { usuario: "andrea.morales", password: "andrea2025", rol: "alumno", codigoAlumno: "A003" },
-];
-
-const materiaPorNombre = (nombre: string): MateriaInscrita => {
-  const curso = cursosDisponibles.find((c) => c.nombre === nombre);
-  return {
-    curso: nombre,
-    maestro: curso?.maestro ?? "",
-    horario: curso?.horario ?? "",
-    nota: "",
-  };
-};
-
-const alumnosIniciales: Alumno[] = [
-  {
-    codigo: "A001",
-    nombre: "Ana Sofía",
-    apellido: "López García",
-    fechaNacimiento: "2016-03-12",
-    grado: "1",
-    seccion: "A",
-    encargado: "María García",
-    telefono: "5555-1234",
-    direccion: "Zona 1",
-    materias: [
-      { curso: "Lengua y alfabetización", maestro: "Laura García", horario: "07:00 - 08:00", nota: "85" },
-      { curso: "Matemáticas", maestro: "Carlos Méndez", horario: "08:00 - 09:00", nota: "90" },
-    ],
-    estado: "Activo",
-  },
-  {
-    codigo: "A002",
-    nombre: "Carlos Daniel",
-    apellido: "Pérez Ruiz",
-    fechaNacimiento: "2015-07-22",
-    grado: "2",
-    seccion: "B",
-    encargado: "José Pérez",
-    telefono: "5555-5678",
-    direccion: "Zona 5",
-    materias: [
-      { curso: "Matemáticas", maestro: "Carlos Méndez", horario: "08:00 - 09:00", nota: "78" },
-      { curso: "Ciencia y exploración", maestro: "Andrea López", horario: "09:00 - 10:00", nota: "" },
-    ],
-    estado: "Activo",
-  },
-  {
-    codigo: "A003",
-    nombre: "Andrea Fernanda",
-    apellido: "Morales Díaz",
-    fechaNacimiento: "2014-11-02",
-    grado: "3",
-    seccion: "A",
-    encargado: "Laura Díaz",
-    telefono: "5555-9012",
-    direccion: "Zona 10",
-    materias: [
-      { curso: "Estudios sociales", maestro: "José Ramírez", horario: "10:00 - 11:00", nota: "88" },
-    ],
-    estado: "Inactivo",
-  },
-];
 
 type NuevoAlumno = Omit<Alumno, "codigo" | "estado"> & { codigo?: string };
 
@@ -196,6 +75,30 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     window.localStorage.setItem(STORAGE_USUARIOS, JSON.stringify(usuarios));
   }, [usuarios]);
+
+
+  useEffect(() => {
+    let cancelado = false;
+
+    async function sincronizarDesdeApi() {
+      const { apiConfig, alumnosService } = await import("../api");
+      if (apiConfig.useMock || !apiConfig.baseUrl) return;
+
+      try {
+        const remotos = await alumnosService.listar();
+        if (!cancelado && remotos.length > 0) {
+          setAlumnos(remotos);
+        }
+      } catch {
+        /* Si el backend no responde, se mantienen los datos locales */
+      }
+    }
+
+    void sincronizarDesdeApi();
+    return () => {
+      cancelado = true;
+    };
+  }, []);
 
   const value = useMemo<AppContextValue>(() => {
     const siguienteCodigo = () => {
@@ -327,7 +230,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       const nombreBase = slug(alumno.nombre.split(" ")[0] ?? "");
       const apellidoBase = slug(alumno.apellido.split(" ")[0] ?? "");
-      const base = `${nombreBase}.${apellidoBase}` || slug(alumno.codigo);
+      const base =  slug(alumno.codigo)  || `${nombreBase}.${apellidoBase}`;
 
       let usuario = base;
       let contador = 1;
