@@ -9,6 +9,7 @@ import reporteBg3 from "../assets/reporte-bg-3.png";
 import reporteBg4 from "../assets/reporte-bg-4.png";
 import "./AlumnosPage.css";
 import "./ReportesPage.css";
+import { Cards} from "../components/card";
 
 const fondos = [reporteBg1, reporteBg2, reporteBg3, reporteBg4];
 
@@ -844,32 +845,14 @@ function ReportesPage() {
         </div>
       </div>
 
-      <div className="report-stats">
-        <div className="stat-card">
-          <span className="stat-icon stat-icon-total">👥</span>
-          <div>
-            <span className="stat-value">{alumnosFiltrados.length}</span>
-            <span className="stat-label">Alumnos en el reporte</span>
-          </div>
-        </div>
 
-        <div className="stat-card">
-          <span className="stat-icon stat-icon-active">✅</span>
-          <div>
-            <span className="stat-value">{totalActivos}</span>
-            <span className="stat-label">Activos</span>
-          </div>
-        </div>
-
-        <div className="stat-card">
-          <span className="stat-icon stat-icon-inactive">⛔</span>
-          <div>
-            <span className="stat-value">{totalInactivos}</span>
-            <span className="stat-label">Inactivos</span>
-          </div>
-        </div>
-      </div>
-
+     {/*  Practica en prueba vibe coding */}
+      <Cards
+      total = {alumnosFiltrados.length}
+      activos = {totalActivos}
+      inactivos = { totalInactivos}
+      />
+    
       <div className="form-card">
         <h2>Filtros del reporte</h2>
 
